@@ -1,0 +1,232 @@
+% !TeX root = ../example.tex
+
+\makeatletter
+% 申请学位的学科门类:小二号宋体字，字距延伸0.5bp，所以\CJKglue应该设为1 bp。
+% 修改：太原理工大学学科门类：学历：初号楷体，门类：20bp楷体 楷体均加粗，所以此处使用伪粗楷
+% 学位名称
+\newcommand\tyut@titlepage@degree{%
+	\thu@stretch{11.3cm}{\bfseries\chuhao\kaishu%使用模板定义的弹性盒子
+		\ifthu@degree@doctor
+			博士%
+		\else
+			\ifthu@degree@master
+				硕士%
+			\fi
+		\fi%
+		学位论文%
+	}%
+}%
+
+% 学位类型
+%\newcommand\tyut@titlepage@degree@type{%
+%	\begingroup
+%	\CJKfamily+{} % \CJKfamily+ 对所有字符均有效，详见xeCJK
+%%\xiaoer
+%%	\def\CJKglue{\hskip 1bp}%
+%	\bfseries\kaishu\fontsize{20bp}{31.2bp}\selectfont
+%	\ifthu@degree@master
+%	\ifthu@degree@type@professional
+%	（专\ 业\  %
+%	\else
+%	\ifthu@degree@type@academic
+%	（学\ 术\  %
+%	\fi
+%	\fi
+%	学\ 位）
+%	\fi
+%	\endgroup
+%}
+
+\newcommand\tyut@titlepage@degree@type{%
+	\centering
+	\thu@stretch{4.8cm}{\bfseries\fontsize{20bp}{31.2bp}\selectfont\kaishu%
+		\ifthu@degree@master
+			\ifthu@degree@type@professional
+				（专业%
+			\else
+				\ifthu@degree@type@academic
+					（学术%
+				\fi
+			\fi%
+			学位）%
+		\fi%
+	}%
+}%
+
+% 标题页作者信息表
+\newcommand\tyut@titlepage@info@tabular[4]{%
+	\def\tyut@info@item##1##2{%
+		\thu@pad{#1}{\thu@fixed@box{#2}{##1}}%
+		%      \thu@pad{#3}{：}% 修改：太原理工大学要求姓名信息居中,且需要添加下划线，\smash可以得到更接近文字的下划线。
+		% 可以选择用\CJKunderline[thickness=<width>]{contents}来调整线宽
+		\underline{\smash{\makebox[6cm][c]{##2}}} \\ 
+	}%
+	\begin{tabular}{l}%
+		\renewcommand\arraystretch{1}%
+		#4%
+	\end{tabular}%
+}
+
+% 具体列表:可以自己添加
+\newcommand\tyut@titlepage@info{%
+	\tyut@titlepage@info@tabular{2.8cm}{2.82cm}{0cm}{%
+		\tyut@info@item{姓名：}{\thu@author}%
+		\tyut@info@item{学号：}{2000123456}%
+		\tyut@info@item{培养单位：}{\thu@department}%
+		\tyut@info@item{专业领域：}{计算机技术}%
+		\tyut@info@item{研究方向：}{硕士论文}%
+		\tyut@info@item{导师姓名：}{XXX \quad 讲师}%
+		\tyut@info@item{企业导师：}{XXX \quad 教授}%
+	}\par
+}
+
+% 论文成文打印的日期，用三号宋体汉字，字距延伸0.5bp，所以\CJKglue应该设为1 bp
+\newcommand\tyut@titlepage@date{%
+	\begingroup
+	\kaishu\sanhao
+	% 修改：太原理工大学要求三号楷体，阿拉伯数字日期，不做字距延伸
+	论文提交日期：\thu@format@date{\thu@date@zh@digit@short}{\thu@date}\par
+	\endgroup
+}
+
+% 英文封面格式
+\newcommand\tyut@titlepage@en@title{%题目
+	\begingroup
+	\bfseries\xiaoer\selectfont
+	\thu@title@en\par
+	\endgroup
+}
+\newcommand\tyut@thesis@name@en{%
+	\ifthu@degree@master
+	Thesis%
+	\else
+	Dissertation%
+	\fi
+}
+
+\newcommand\tyut@titlepage@en@date{%日期 修改：太原理工大学要求newtimes字体四号行距1.5
+	\begingroup
+	\sihao[27.4bp]
+	\thu@format@date{\thu@date@en@short}{\thu@date}\par
+	\endgroup
+}
+
+% 中文封面
+\newcommand\tyut@titlepage@cn{
+	\newgeometry{
+		top     = 2.54cm,
+		bottom  = 2.54cm,
+		hmargin = 3.18cm,
+	}%
+	
+	\thispagestyle{empty}%
+	\thusetup{language = chinese}%
+	\begingroup % 修改：太原理工大学，分类号，学校代码，密级在顶部左右两侧，小四字体
+	{\kaishu\xiaosi%
+		\setlength{\parindent}{0em}
+		分类号：{\fontsize{11pt}{13.2pt}\thu@clc}\hfill
+		学校代码：\makebox[1.35cm][l]{{\fontsize{11pt}{13.2pt}10112}{\enspace}}\par
+		\hfill 密\quad\enspace 级：\makebox[1.35cm][l]{\thu@titlepage@secret} \par
+	}%
+	%    \parbox[t][2cm][t]{\textwidth}{%
+		%      \hskip -21.5pt%
+		%      \thu@titlepage@secret
+		%    }\par
+	\centering % logo，学历
+	\vskip 34.32pt%
+	\parbox{\textwidth}{
+		\centering
+		\includegraphics[height=2.62cm,width=10.79cm]{logo.png}
+	}
+	\vskip 12pt%
+	\tyut@titlepage@degree
+	\vskip 16pt
+	\quad\tyut@titlepage@degree@type
+	\vskip 68.64pt%
+	%	\vfill
+	% 题目
+	\begingroup
+	\sffamily\fontsize{22bp}{46.8bp}\selectfont
+	\bfseries\kaishu \erhao\thu@title\par
+	\endgroup
+	\ifthu@main@language@english
+	\vskip 5.4pt%
+	\begingroup
+	\sffamily\bfseries\fontsize{20bp}{31.2bp}\selectfont
+	\thu@title@en\par
+	\endgroup
+	\vskip -9.2pt%
+	\fi
+	%    \vskip 34.1pt%
+	\vfill
+	\parbox[t][7.25cm][t]{\textwidth}{% 
+		% 修改：太原理工大学作者及导师信息部分使用三号楷体
+		% 行距需要手动调整
+		\centering
+		\kaishu\sanhao[30.5bp]\selectfont % 此处为字体字号
+		\tyut@titlepage@info % 此处为作者导师信息
+	}\par
+	\vskip 80bp
+	\parbox[t][0.6cm][t]{\textwidth}{\centering\tyut@titlepage@date}\par
+	\vskip 16bp
+	\endgroup
+	\clearpage
+	\restoregeometry
+	\thu@reset@main@language
+}
+% 英文封面
+\newcommand\tyut@titlepage@en{
+	\newgeometry{
+		top     = 2.54cm,
+		bottom  = 2.54cm,
+		hmargin = 3.18cm,
+	}%
+	\thispagestyle{empty}%
+	\thusetup{language = english}%
+	\begingroup%
+	\centering%
+	\null\vskip 8pt%
+	\begingroup
+	\fontsize{15bp}{31.5bp}\selectfont A Dissertation Submitted to
+	\\
+	Taiyuan University of Technology
+	\\
+	In partial fulfillment of the requirement
+	\\
+	For the degree of %
+	\ifthu@degree@doctor
+	Doctor
+	\else
+	\ifthu@degree@master
+	Master
+	\fi
+	\fi%
+	\\
+	\endgroup
+	\vskip 4.6cm%
+	\tyut@titlepage@en@title
+	\vskip 49.92bp%
+	\sihao By\par%
+	\sihao[27.3bp]\thu@author@en\par%
+	\vfill
+	\sihao[27.3bp]\thu@department@en\\
+	\vskip 3pt%
+	\tyut@titlepage@en@date
+	\vskip 22.5pt%
+	\endgroup
+	\thu@reset@main@language
+	\clearpage
+	\restoregeometry
+}
+\makeatother
+
+\begin{titlepage}
+	\makeatletter
+	\cleardoublepage
+	\thu@pdfbookmark{-1}{\thu@title}%
+	\tyut@titlepage@cn
+	\cleardoublepage
+	\tyut@titlepage@en
+	\cleardoublepage
+	\makeatother
+\end{titlepage}

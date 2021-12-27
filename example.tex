@@ -1,0 +1,103 @@
+% !TeX encoding = UTF-8
+% !TeX program = xelatex
+% !TeX spellcheck = en_US
+
+\documentclass[font=times,fontset=windows,openright]{tyutthesis}
+  % 学位 degree:
+  %   doctor | master | postdoc
+  % 学位类型 degree-type:
+  %   academic（默认）| professional
+  % 语言 language
+  %   chinese（默认）| english
+  % 字体库 fontset
+  %   windows | mac | fandol | ubuntu
+  % 研究生院建议终版使用 Windows 平台的字体编译
+
+% 论文基本配置，加载宏包等全局配置
+\input{thusetup}
+
+
+\begin{document}
+\covermatter% 新增：封面部分
+% 封面
+%\maketitle
+
+\input{data/coverpagecn}
+% 学位论文指导小组、公开评阅人和答辩委员会名单
+%\input{data/committee}
+\input{data/copyright}
+\cleardoublepage
+\input{data/committee}
+\cleardoublepage
+% 使用授权的说明
+%\copyrightpage
+% 将签字扫描后授权文件 scan-copyright.pdf 替换原始页面
+% 声明和授权
+% \copyrightpage[file=scan-copyright.pdf]
+
+% 学位论文答辩信息表
+%\includepdf
+
+\frontmatter
+\input{data/abstract}
+
+\cleardoublepage
+% 目录
+\tableofcontents
+
+% 插图和附表清单
+% 本科生的插图索引和表格索引需要移至正文之后、参考文献前
+\listoffiguresandtables  % 插图和附表清单
+% \listoffigures           % 插图清单
+% \listoftables            % 附表清单
+
+% 符号对照表
+\input{data/denotation}
+
+\mainmatter
+% 正文部分
+\input{data/chap01}
+\input{data/chap02}
+\input{data/chap03}
+\input{data/chap04}
+
+\cleardoublepage % 使参考文献为右手打开
+% 其他部分
+%\backmatter
+% 参考文献
+\bibliography{ref/refs}  % 参考文献使用 BibTeX 编译
+% \printbibliography       % 参考文献使用 BibLaTeX 编译
+\cleardoublepage
+%\backmatter
+% 附录
+\appendix % 模板将\@mainmattertrue添加到\appendix，
+% 因此，若需要\backmatter后空白页不添加页眉，则多次声明即可。
+\input{data/appendix}
+
+\cleardoublepage
+%\backmatter 
+% 在学期间完成的相关学术成果
+\input{data/resume}
+\cleardoublepage
+%\backmatter
+% 致谢
+\input{data/acknowledgements}
+
+%\cleardoublepage
+%% 声明
+%\statement
+% 生成的声明页是否要插入页眉和页脚（默认 empty）
+% 仅在需要进行电子签名时，才需要打开这一选项
+% 插入的扫描声明页总是会生成页眉（研究生）和页脚，不受这一选项影响
+% \statement[page-style=plain]
+% 将签字扫描后的声明文件 scan-statement.pdf 替换原始页面
+% \statement[file=scan-statement.pdf]
+
+% 指导教师/指导小组学术评语
+%\input{data/comments}
+
+% 答辩委员会决议书
+%\input{data/resolution}
+
+
+\end{document}

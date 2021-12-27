@@ -1,0 +1,59 @@
+% !TeX root = ../example.tex
+\begingroup
+\thispagestyle{empty}%
+\null\par
+\vskip 4bp%
+\begin{center}
+	\sffamily\sanhao 学位论文答辩信息表
+\end{center}%
+\vskip 18bp%
+\fontsize{14bp}{35.5bp}\selectfont
+%\renewcommand{\arraystretch}{1.7}
+\newlength{\lw}
+\setlength{\lw}{2\tabcolsep+\arrayrulewidth}
+\centering	
+\makeatletter
+\begin{tabular}{|>{\centering\arraybackslash}m{3.5cm - \lw}|>{\centering\arraybackslash}m{4.75cm- \lw}|>{\centering\arraybackslash}m{3.25cm- \lw}|>{\centering\arraybackslash}m{4.25cm- \lw}|}
+	\hline
+	{\centering 论文题目}  & \multicolumn{3}{l|}{ }                       \\
+	\ifthu@degree@doctor
+		\@empty
+	\else
+		\ifthu@degree@type@professional%
+			\hline
+			\makecell[c]{论文类型 \\ (在{[\quad]}内打 \\ “√”)} 
+			&\multicolumn{3}{@{}c@{}|}{
+				\raisebox{-1em}{\makecell[c]{
+						{[\quad]}产品研发\qquad {[\quad]}工程设计\qquad {[\quad]}应用研究\\ 
+						{[\quad]}工程/项目管理\qquad {[\quad]}调研报告\qquad {[\quad]}基础研究 
+				}}
+			}\\
+		\fi
+	\fi%
+
+	\hline
+	{答辩日期}  & { }     & 答辩秘书      &   { }  \\
+	\hline
+	\multicolumn{4}{|@{}c@{}|}{学位论文答辩委员会成员}  \\
+	\hline
+	\multicolumn{4}{|@{}c@{}|}{%	
+		\begin{tabular}[c]{>{\centering\arraybackslash}m{2.75cm- \lw}|>{\centering\arraybackslash}m{3cm- \lw}|>{\centering\arraybackslash}m{5.75cm- \lw}|>{\centering\arraybackslash}m{4.25cm- \lw}}
+			姓名           & 职称 & 工作单位 & 备注  \\
+			\hline
+			&     &      & 主席  \\
+			\hline
+			&    &       &     \\
+			\hline
+			&     &       &    \\
+			\hline
+			\ifthu@degree@doctor
+				&    &       &     \\
+				\hline
+				&     &       &    \\
+				\hline
+			\fi
+		\end{tabular} 
+	} \\
+\end{tabular}
+\makeatother
+\endgroup

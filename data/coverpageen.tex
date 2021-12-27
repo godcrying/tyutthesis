@@ -1,0 +1,69 @@
+% !TeX root = ../example.tex
+\begin{titlepage}
+	\makeatletter
+	\newcommand\thu@titlepage@en@title{%题目
+		\begingroup
+		\bfseries\xiaoer\selectfont
+		\thu@title@en\par
+		\endgroup
+	}
+	\newcommand\tyut@thesis@name@en{%
+		\ifthu@degree@master
+			Thesis%
+		\else
+			Dissertation%
+		\fi
+	}
+	
+	\newcommand\tyut@titlepage@en@date{%日期 修改：太原理工大学要求newtimes字体四号行距1.5
+		\begingroup
+		\sihao[27.4bp]
+		\thu@format@date{\thu@date@en@short}{\thu@date}\par
+		\endgroup
+	}
+	
+	\newcommand\tyut@titlepage@en{
+		\newgeometry{
+			top     = 2.54cm,
+			bottom  = 2.54cm,
+			hmargin = 3.18cm,
+		}%
+		\thispagestyle{empty}%
+		\thusetup{language = english}%
+		\begingroup%
+			\centering%
+			\null\vskip 8pt%
+			\begingroup
+				\fontsize{15bp}{31.5bp}\selectfont A Dissertation Submitted to
+				\\
+				Taiyuan University of Technology
+				\\
+				In partial fulfillment of the requirement
+				\\
+				For the degree of %
+				\ifthu@degree@doctor
+					Doctor
+				\else
+					\ifthu@degree@master
+						Master
+					\fi
+				\fi%
+				\\
+			\endgroup
+			\vskip 4.6cm%
+			\tyut@titlepage@en@title
+			\vskip 49.92bp%
+			\sihao By\par%
+			\sihao[27.3bp]\thu@author@en\par%
+			\vfill
+			\sihao[27.3bp]\thu@department@en\\
+			\vskip 3pt%
+			\thu@titlepage@en@date
+			\vskip 22.5pt%
+		\endgroup
+		\thu@reset@main@language
+		\clearpage
+		\restoregeometry
+	}
+	\makeatother
+\end{titlepage}

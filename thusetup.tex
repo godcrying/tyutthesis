@@ -1,0 +1,154 @@
+% !TeX root = ./example.tex
+
+% 论文基本信息配置
+
+\thusetup{
+  %******************************
+  % 注意：
+  %   1. 配置里面不要出现空行
+  %   2. 不需要的配置信息可以删除
+  %   3. 建议先阅读文档中所有关于选项的说明
+  %******************************
+  %
+  % 输出格式
+  %   选择打印版（print）或用于提交的电子版（electronic），前者会插入空白页以便直接双面打印
+  %
+  output = print,
+  %
+  % 标题
+  %   可使用“\\”命令手动控制换行
+  %
+  title  = {基于\LaTeX 的毕业论文编写\\方法的研究},
+  title* = {The Research on writting method\\ of Dissertation Based on \\ \LaTeX },
+  %
+  %
+  % 培养单位
+  %   填写所属院系的全名
+  %
+  department = {信息与计算机学院},
+  department* = {College of Information and Computer},
+  %
+  % 姓名
+  author  = {李小明},
+  author* = {Xiaoming Li},
+  % 学位 
+  degree = master,
+  % 学位类型
+  degree-type = professional,
+  %
+  % 日期
+  %   使用 ISO 格式；默认为当前时间
+  %
+  % date = {2019-07-07},
+  %
+  % 密级和年限
+  %   秘密, 机密, 绝密
+  %
+  % secret-level = {秘密},
+  % secret-year  = {10},
+  %
+  % 博士后专有部分 
+  %
+  % clc                = {xxx}, % 分类号
+  % udc                = {UDC},
+  % id                 = {编号},
+  % discipline-level-1 = {计算机科学与技术},  % 流动站（一级学科）名称
+  % discipline-level-2 = {系统结构},          % 专业（二级学科）名称
+  % start-date         = {2011-07-01},        % 研究工作起始时间
+}
+
+% 载入所需的宏包
+\usepackage{subfig}
+\DeclareSubrefFormat{parens}{#1\,(#2)} 
+\captionsetup[subfloat]{subrefformat=parens} % 修改：引用子图要有括号。
+
+% 修改：太原理工大学：添加算法环境
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\renewcommand{\algorithmicrequire}{\textbf{输入:}}  
+\renewcommand{\algorithmicensure}{\textbf{输出:}} 
+% 定义算法字体为五号。自己按情况修改。
+\makeatletter
+\algrenewcommand\ALG@beginalgorithmic{\wuhao}
+\makeatother
+
+
+%\usepackage{setspace} % 与cls文件中的\@floatboxreset冲突
+% 定理类环境宏包
+\usepackage{amsthm}
+% 也可以使用 ntheorem
+% \usepackage[amsmath,thmmarks,hyperref]{ntheorem}
+\usepackage{mathtools}
+
+\thusetup{
+  %
+  % 数学字体
+  math-style = GB,  % GB | ISO | TeX
+  math-font  = xits,  % sitx | xits | libertinus
+}
+
+% 可以使用 nomencl 生成符号和缩略语说明
+% \usepackage{nomencl}
+% \makenomenclature
+
+% 表格加脚注
+\usepackage{threeparttable}
+
+% 表格中支持跨行
+\usepackage{multirow}
+
+% 固定宽度的表格。
+% \usepackage{tabularx}
+
+% 跨页表格
+\usepackage{longtable}
+% 单元格
+\usepackage{makecell}
+
+% 量和单位
+\usepackage{siunitx}
+
+% 参考文献使用 BibTeX + natbib 宏包
+% 顺序编码制
+\usepackage[sort]{natbib}
+\bibliographystyle{thuthesis-numeric}
+%\bibliographystyle{gbt7714-numerical}
+% 著者-出版年制
+% \usepackage{natbib}
+% \bibliographystyle{thuthesis-author-year}
+
+% 本科生参考文献的著录格式
+% \usepackage[sort]{natbib}
+% \bibliographystyle{thuthesis-bachelor}
+
+% 参考文献使用 BibLaTeX 宏包
+% \usepackage[backend=biber,style=thuthesis-numeric]{biblatex}
+% \usepackage[backend=biber,style=thuthesis-author-year]{biblatex}
+% \usepackage[backend=biber,style=apa]{biblatex}
+% \usepackage[backend=biber,style=mla-new]{biblatex}
+% 声明 BibLaTeX 的数据库
+% \addbibresource{ref/refs.bib}
+
+% 定义所有的图片文件在 figures 子目录下
+\graphicspath{{figures/}}
+
+% 数学命令
+\makeatletter
+\newcommand\dif{%  % 微分符号
+  \mathop{}\!%
+  \ifthu@math@style@TeX
+    d%
+  \else
+    \mathrm{d}%
+  \fi
+}
+\makeatother
+
+% hyperref 宏包在最后调用
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{rotfloat} % 图片横排
+\usepackage[export]{adjustbox} % 图片顶端对齐
+% 写作时参考文献位置占位
+\newcommand*{\needcite}{\color{red}[cite]}
