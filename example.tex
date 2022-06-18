@@ -43,14 +43,16 @@
 
 \cleardoublepage
 % 目录
+\begingroup
+\hypersetup{hidelinks} % 目录去掉红框更美观
 \tableofcontents
 
 % 插图和附表清单
 % 本科生的插图索引和表格索引需要移至正文之后、参考文献前
-\listoffiguresandtables  % 插图和附表清单
-% \listoffigures           % 插图清单
-% \listoftables            % 附表清单
-
+% \listoffiguresandtables  % 插图和附表清单
+\listoffigures           % 插图清单
+\listoftables            % 附表清单
+\endgroup
 % 符号对照表
 \input{data/denotation}
 
@@ -82,22 +84,5 @@
 %\backmatter
 % 致谢
 \input{data/acknowledgements}
-
-%\cleardoublepage
-%% 声明
-%\statement
-% 生成的声明页是否要插入页眉和页脚（默认 empty）
-% 仅在需要进行电子签名时，才需要打开这一选项
-% 插入的扫描声明页总是会生成页眉（研究生）和页脚，不受这一选项影响
-% \statement[page-style=plain]
-% 将签字扫描后的声明文件 scan-statement.pdf 替换原始页面
-% \statement[file=scan-statement.pdf]
-
-% 指导教师/指导小组学术评语
-%\input{data/comments}
-
-% 答辩委员会决议书
-%\input{data/resolution}
-
 
 \end{document}

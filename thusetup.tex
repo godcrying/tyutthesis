@@ -11,9 +11,12 @@
   %******************************
   %
   % 输出格式
-  %   选择打印版（print）或用于提交的电子版（electronic），前者会插入空白页以便直接双面打印
-  %
+  %   选择打印版（print）或用于提交的电子版（electronic），
+  % 前者会插入空白页并设置边距以便直接双面打印
+  % 后者将页面居中，电子版查看更美观。
   output = print,
+  % 设置是否去掉页眉页脚，一般用于查重版本。默认为false。
+  paper-check = false,
   %
   % 标题
   %   可使用“\\”命令手动控制换行
@@ -86,6 +89,7 @@
   % 数学字体
   math-style = GB,  % GB | ISO | TeX
   math-font  = xits,  % sitx | xits | libertinus
+  integral-limits = false, % 积分上下限放置在右侧
 }
 
 % 可以使用 nomencl 生成符号和缩略语说明

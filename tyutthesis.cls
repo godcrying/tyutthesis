@@ -385,8 +385,16 @@
     choices = {
       print,
       electronic,
+      check,
     },
     default = print,
+  },
+  paper-check = {
+    name = paper@check,
+    choices = {
+      false,
+      true,
+    },
   },
 }
 
@@ -454,6 +462,8 @@
 	\def\figurename{Fig.}}
 \captionsetup[bi-first]{bi-first}
 \captionsetup[bi-second]{bi-second}
+\DeclareBiCaptionSeparator{6bp}{\vspace{6bp}} % 修改：中英文caption间距6pt
+\captionsetup{bi-separator=6bp}
 
 \RequirePackage{pdfpages}
 \includepdfset{fitpaper=true} % 这个是pdfpages的设置命令
@@ -552,15 +562,28 @@
   marginparsep   = 0.5cm,
 }
 \newcommand\thu@set@geometry{%
-    \geometry{ % 修改：太原理工大学要求 上下2.54cm，左3cm 右2cm，模板给出的页眉顶端距为1.5cm，页脚底端距1.75cm。微调页眉高度
-		top        = 2.54cm,
-		bottom     = 2.54cm,
-		left       = 3cm,
-		right      = 2cm,
-		headheight = 0.37cm, % 五号字高度0.37mm
-		headsep    = 0.67cm, % 要保证top-headheight-headsep=1.5
-		footskip   = 0.79cm, % 要保证bottom-footskip=1.75
-    }%
+    \ifthu@output@print
+      \geometry{ % 修改：太原理工大学要求 上下2.54cm，左3cm 右2cm，模板给出的页眉顶端距为1.5cm，页脚底端距1.75cm。微调页眉高度
+        top        = 2.54cm,
+        bottom     = 2.54cm,
+        left       = 3cm,
+        right      = 2cm,
+        headheight = 0.37cm, % 五号字高度0.37mm
+        headsep    = 0.67cm, % 要保证top-headheight-headsep=1.5
+        footskip   = 0.79cm, % 要保证bottom-footskip=1.75
+      }%
+    \fi
+    \ifthu@output@electronic
+      \geometry{ % 修改：太原理工大学要求 上下2.54cm，左3cm 右2cm，模板给出的页眉顶端距为1.5cm，页脚底端距1.75cm。微调页眉高度
+        top        = 2.54cm,
+        bottom     = 2.54cm,
+        left       = 2.5cm,
+        right      = 2.5cm,
+        headheight = 0.37cm, % 五号字高度0.37mm
+        headsep    = 0.67cm, % 要保证top-headheight-headsep=1.5
+        footskip   = 0.79cm, % 要保证bottom-footskip=1.75
+      }%
+    \fi
 }
 % 先执行该命令生成对应\geometry的指令，然后加入hook中
 \thu@set@geometry
@@ -1546,12 +1569,12 @@
         \else
         	\thispagestyle{empty}
         \fi
-       	\iftyut@covermatter% 修改：新增ifcovermatter
-       		\thispagestyle{empty}
-       	\fi
-%       \iftyut@backmatter
-%       	\thispagestyle{empty}
-%       \fi
+        \iftyut@covermatter% 修改：新增ifcovermatter
+          \thispagestyle{empty}
+        \fi
+%        	\iftyut@backmatter
+%        		\thispagestyle{empty}
+%        	\fi
         \hbox{}%
         \newpage
         \if@twocolumn
@@ -1563,12 +1586,12 @@
 }
 
 % 重定义\frontmatter \mainmatter \backmatter，添加\cleardoublepage的功能
-% 修改：新增ifbackmatter，新增iffrontmatter
+% 修改：新增ifbackmatter
 \newif\iftyut@backmatter
 \newif\iftyut@covermatter
 \tyut@backmatterfalse
 \tyut@covermatterfalse
-\newcommand\covermatter{% 修改：新增covermatter
+\newcommand\covermatter{% 修改：新增covermatter，便于修改摘要前的格式
 	\cleardoublepage
 	\@mainmatterfalse
 	\tyut@covermattertrue
@@ -1634,11 +1657,22 @@
     }%
   \let\sectionmark\@gobble
 }
-\pagestyle{plain}
-% 这里进行fancy“坑”的处理
-\def\ps@chapter{}
-\ctexset{chapter/pagestyle = chapter}
-
+\newcommand{\thu@set@papercheck}{
+  % 修改：添加查重去除页眉页脚
+  \ifthu@paper@check@true
+    \pagestyle{empty}
+    % 这里进行fancy“坑”的处理
+    \def\ps@chapter{}
+    \ctexset{chapter/pagestyle = empty}
+  \else
+    \pagestyle{plain}
+    % 这里进行fancy“坑”的处理
+    \def\ps@chapter{}
+    \ctexset{chapter/pagestyle = chapter}
+  \fi
+}
+\thu@set@papercheck
+\thu@option@hook{paper-check}{\thu@set@papercheck}
 %%%%%%%%%%%%%%%%%%%%%%%
 % 段落设置
 %%%%%%%%%%%%%%%%%%%%%%%
@@ -1770,8 +1804,9 @@
 \setlength{\floatsep}{12\p@ \@plus 2\p@ \@minus 2\p@}
 \setlength{\textfloatsep}{12\p@ \@plus 2\p@ \@minus 2\p@}
 \setlength{\intextsep}{12\p@ \@plus 2\p@ \@minus 2\p@}
+% 设置页中浮动对象的上下margin
 \setlength{\@fptop}{0bp \@plus1.0fil}
-\setlength{\@fpsep}{12bp \@plus2.0fil}
+\setlength{\@fpsep}{12bp \@plus2.0fil} 
 \setlength{\@fpbot}{0bp \@plus1.0fil}
 
 \patchcmd{\@addtocurcol}%
@@ -1910,22 +1945,23 @@
 % 图：caption在下，段前空6磅，段后空12磅
 % 表：caption在上，段前空12磅，段后空6磅
 % 修改：太原理工大学要求，图表标题字体中文为五号宋体,英文为五号 Times New Roman,单倍行距, 段前 6 磅,段后 6 磅。
-\DeclareCaptionFont{thu}{%
-    \wuhao\selectfont
+\DeclareCaptionFont{normalsize}{%
+  \fontsize{10.5bp}{13.65bp}\selectfont
 }
+
 \DeclareCaptionLabelFormat{tyutlabel}{#1 #2\hspace{1.5ex}} % 修改：自定义caption format
 \captionsetup{
-  font           = thu,
+  % font           = thu, % 修改：直接更改normalsize定义，达到更改所有caption字体的目的。
   labelformat	 = tyutlabel,
   labelsep       = none, % 一个space太难看，一个quad又太宽，所以自己定义了一个format
 %  labelsep       = space, % 修改：太原理工大学要求表序与表题间隔一个字符
   aboveskip      = 6bp,
-  belowskip      = 6bp,
+  belowskip      = 0bp,
   figureposition = bottom,
-  tableposition  = top,
+  tableposition  = top, % 注：position设置为top时，caption包会将aboveskip和belowskip互换。
 }
-\captionsetup[sub]{font=thu}
-\captionsetup[algorithm]{font=thu} % 修改：算法的caption为指定字体字号
+% \captionsetup[sub]{font=thu}
+% \captionsetup[algorithm]{font=thu} % 修改：算法的caption为指定字体字号
 
 %\renewcommand{\thesubfigure}{(\alph{subfigure})}
 %\renewcommand{\thesubtable}{(\alph{subtable})} 修改：subcaption包被删去，此处报错
@@ -2326,13 +2362,13 @@
   \begingroup % 修改：太原理工大学，英文摘要需要缩进4个字符,但研究发现3.5ex正好
   \ctexset{autoindent=3.5ex}%
 }{%
-\endgroup
   \par
   \null\par
   \noindent
   \textbf{Keywords:}\space
   \thu@clist@use{\thu@keywords@en}{; }%
   \vspace*{\stretch{1}}%
+  \endgroup
   \thu@reset@main@language % switch back to main language
 }
 
@@ -2901,7 +2937,7 @@
   labelsep   = 3mm,
   labelwidth = 5mm,
   before     = {
-  	\fontsize{12bp}{20bp}\selectfont % 修改：太原理工大学要求小四字体，行距20bp
+  	\fontsize{12bp}{20pt}\selectfont % 修改：太原理工大学要求小四字体，行距20bp
   },
 %  resume     = achievements,% 修改：太原理工大学要求独立编号
 }
